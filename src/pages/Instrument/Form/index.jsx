@@ -1,11 +1,14 @@
 import {
   useEffect
 } from "react";
+
 import {
   Button,
   Form,
   InputNumber,
-  Input
+  Input,
+  Row,
+  Col
 } from "antd";
 
 function InstrumentForm({
@@ -39,12 +42,38 @@ function InstrumentForm({
       layout="vertical"
       onFinish={onFinish}
     >
-      <Form.Item label="Instrumento" >
-        <Input type="text" name="name" />
-      </Form.Item>
-      <Form.Item label="Quantidade">
-        <InputNumber name="amoutn" />
-      </Form.Item>
+      <Row
+        gutter={[12, 12]}
+      >
+        <Col
+          span={12}
+        >
+          <Form.Item label="Instrumento" >
+            <Input type="text" name="name" />
+          </Form.Item>
+        </Col>
+        <Col
+          span={12}
+        >
+          <Form.Item label="Marca">
+            <Input type="text" name="mark" />
+          </Form.Item>
+        </Col>
+        <Col
+          span={12}
+        >
+          <Form.Item label="Série">
+            <Input type="text" name="series" />
+          </Form.Item>
+        </Col>
+        <Col
+          span={12}
+        >
+          <Form.Item label="Quantidade">
+            <InputNumber name="amoutn" />
+          </Form.Item>
+        </Col>
+      </Row>
       <Button
         type="default"
         onClick={onCancelClick}

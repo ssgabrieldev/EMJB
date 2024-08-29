@@ -1,0 +1,31 @@
+:root {
+  --page-max-width: 720px;
+  --page-padding-horizontal: 50px;
+}
+
+.ant-input-number {
+  width: 100%;
+}
+
+.page {
+  max-width: var(--page-max-width);
+  padding: 0 var(--page-padding-horizontal);
+  margin: auto;
+}
+
+.page-header,
+.page-content {
+  display: flex;
+  padding: 0;
+  background: none;
+  margin: auto;
+}
+
+.page-header {
+  align-items: center;
+  margin-bottom: 64px;
+}
+
+.page-header > .ant-row {
+  width: 100%;
+}

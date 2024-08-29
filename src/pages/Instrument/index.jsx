@@ -9,10 +9,21 @@ import {
 } from "react-router-dom";
 
 import {
+  Button,
+  Col,
+  Layout,
+  Row,
+  Typography
+} from "antd";
+import {
+  ArrowLeftOutlined,
+  EditOutlined
+} from "@ant-design/icons";
+
+import {
   InstrumentForm
 } from "./Form";
-import { Button, Col, Row, Typography } from "antd";
-import { ArrowLeftOutlined, BackwardOutlined, EditOutlined } from "@ant-design/icons";
+import { InstrumentView } from "./View";
 
 function Instrument() {
   const [editMode, setEditMode] = useState(false);
@@ -26,11 +37,23 @@ function Instrument() {
   let title = null;
 
   const getInstrument = (instrumentID) => {
-    setInstrument({
-      id: instrumentID,
-      name: "Violão",
-      amount: 10,
-    });
+    if (instrumentID === "1") {
+      return setInstrument({
+        id: instrumentID,
+        type: "Violão",
+        amount: 10,
+        series: "#54321",
+        mark: "Gianini"
+      });
+    }
+  };
+
+  const onClickBack = () => {
+    if (editMode) {
+      return setEditMode(false);
+    }
+
+    return navigate("/");
   };
 
   const onCancelClick = () => {
@@ -89,37 +112,63 @@ function Instrument() {
   }
 
   return (
-    <div id="instrument-page" className="page">
-      <Row
-        align="middle"
-        gutter={[12, 0]}
+    <div
+      id="instrument-page"
+      className="page"
+    >
+      <Layout.Header className="page-header">
+        <Row
+          align="middle"
+          gutter={[12, 0]}
+        >
+          <Col>
+            <Button
+              type="link"
+              icon={<ArrowLeftOutlined />}
+              onClick={onClickBack}
+              style={{
+                width: "fit-content"
+              }}
+            />
+          </Col>
+          <Col>
+            <Typography.Title title={title}>
+              {title}
+            </Typography.Title>
+          </Col>
+          {
+            !editMode && instrumentID && (
+              <>
+                <Col>
+                  <Button
+                    type="link"
+                    icon={<EditOutlined />}
+                    onClick={onEditClick}
+                  >
+                  </Button>
+                </Col>
+              </>
+            )
+          }
+        </Row>
+      </Layout.Header>
+      <Layout.Content
+        className="page-content"
       >
-        <Col>
-          <Typography.Link
-            onClick={() => navigate("/")}
-          >
-            <ArrowLeftOutlined />
-          </Typography.Link>
-        </Col>
-        <Col>
-          <Typography.Title>
-            {title}
-          </Typography.Title>
-        </Col>
         {
-          !editMode && instrumentID && (
-            <Col>
-              <Button
-                type="link"
-                icon={<EditOutlined />}
-                onClick={onEditClick}
-              >
-              </Button>
+          instrument
+          && !editMode
+          && instrumentID
+          && (
+            <Col span={24}>
+              <InstrumentView
+                instrument={instrument}
+              />
             </Col>
           )
         }
-      </Row>
-      {form}
+        {(!instrumentID || editMode) && form}
+      </Layout.Content>
     </div>
   );
 }

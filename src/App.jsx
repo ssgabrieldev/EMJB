@@ -1,11 +1,17 @@
 import {
   createBrowserRouter,
-  RouterProvider
+  RouterProvider,
 } from "react-router-dom";
 
-import { Login } from "./pages/Login";
-import { Instruments } from "./pages/Instruments";
-import { Instrument } from "./pages/Instrument";
+import {
+  Login
+} from "./pages/Login";
+import {
+  Instruments
+} from "./pages/Instruments";
+import {
+  Instrument
+} from "./pages/Instrument";
 
 import "./App.css";
 

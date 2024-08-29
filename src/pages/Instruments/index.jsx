@@ -3,8 +3,14 @@ import {
 } from "react";
 
 import {
+  Link,
+  useNavigate
+} from "react-router-dom";
+
+import {
   Button,
   Col,
+  Layout,
   Popconfirm,
   Row,
   Table,
@@ -13,16 +19,17 @@ import {
 
 import {
   DeleteOutlined,
+  PlusOutlined,
   WarningOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 
 
 function Instruments() {
+  const TITLE = "Instrumentos";
   const COLUMNS = [
     {
-      key: "name",
-      title: "Nome",
+      key: "type",
+      title: "Tipo",
       align: "center",
       render: (_text, record, _index) => {
         return (
@@ -34,7 +41,7 @@ function Instruments() {
                 <Button
                   type="link"
                 >
-                  {record.name}
+                  {record.type}
                 </Button>
               </Link>
             </Col>
@@ -83,65 +90,66 @@ function Instruments() {
   const [instruments, setInstruments] = useState([
     {
       id: 1,
-      name: "Violão",
+      type: "Violão",
       amount: 20
     },
     {
       id: 2,
-      name: "Teclado",
+      type: "Teclado",
       amount: 20
     },
     {
       id: 3,
-      name: "Flauta doce",
+      type: "Flauta doce",
       amount: 20
     },
     {
       id: 4,
-      name: "Bateria",
+      type: "Bateria",
       amount: 3
     },
     {
       id: 5,
-      name: "Saxofone",
+      type: "Saxofone",
       amount: 4
     },
     {
       id: 6,
-      name: "Cavaquinho",
+      type: "Cavaquinho",
       amount: 10
     },
     {
       id: 7,
-      name: "Violino",
+      type: "Violino",
       amount: 12
     },
     {
       id: 8,
-      name: "Baixo",
+      type: "Baixo",
       amount: 5
     },
     {
       id: 9,
-      name: "Guitarra",
+      type: "Guitarra",
       amount: 11
     },
     {
       id: 10,
-      name: "Banjo",
+      type: "Banjo",
       amount: 1
     },
     {
       id: 11,
-      name: "Flauta transversal",
+      type: "Flauta transversal",
       amount: 10
     },
     {
       id: 12,
-      name: "Pandeiro",
+      type: "Pandeiro",
       amount: 5
     },
   ]);
+  const navigate = useNavigate();
 
   const onClickRemove = (instrumentId) => {
     setInstruments((prevInstruments) => {
@@ -152,15 +160,51 @@ function Instruments() {
   };
 
   return (
-    <div id="intruments-page" className="page-container">
-      <Table
-      rowKey={"id"}
-        columns={COLUMNS}
-        dataSource={instruments}
-        pagination={{
-          position: ["bottomCenter"]
-        }}
-      />
+    <div
+      id="intruments-page"
+      className="page"
+    >
+      <Layout.Header
+        className="page-header"
+      >
+        <Row
+          align="middle"
+          justify="space-between"
+        >
+          <Col>
+            <Typography.Title
+              title={TITLE}
+            >
+              {TITLE}
+            </Typography.Title>
+          </Col>
+          <Col>
+            <Link to="/instrument">
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+              >
+                Novo Instrumento
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+      </Layout.Header>
+      <Layout.Content
+        className="page-content"
+      >
+        <Table
+          style={{
+            width: "100%"
+          }}
+          rowKey={"id"}
+          columns={COLUMNS}
+          dataSource={instruments}
+          pagination={{
+            position: ["bottomCenter"]
+          }}
+        />
+      </Layout.Content>
     </div>
   );
 }
