@@ -1,15 +1,44 @@
 :root {
-  --page-max-width: 720px;
+  --page-max-width: 1040px;
   --page-padding-horizontal: 50px;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0px;
+  min-height: 100vh;
 }
 
 .ant-input-number {
   width: 100%;
 }
 
+.app__content {
+  min-height: 100vh;
+  align-content: center;
+}
+
+.menu-logo {
+  margin: 32px 0;
+  text-align: center;
+}
+
+.menu-logo>img {
+  height: 64px;
+}
+
+.logout {
+  color: #FFF;
+  position: absolute;
+  bottom: 12px;
+  z-index: 1000;
+}
+
 .page {
+  width: 100%;
   max-width: var(--page-max-width);
-  padding: 0 var(--page-padding-horizontal);
+  min-height: 100vh;
+  padding: 24px var(--page-padding-horizontal);
   margin: auto;
 }
 
@@ -26,6 +55,6 @@
   margin-bottom: 64px;
 }
 
-.page-header > .ant-row {
+.page-header>.ant-row {
   width: 100%;
 }
