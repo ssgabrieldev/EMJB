@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Button, Col, Layout, Popconfirm, Row, Table, Typography } from "antd";
 import { DeleteOutlined, PlusOutlined, WarningOutlined } from "@ant-design/icons";
+
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+
+import { firebaseDb } from "../../services/firebase";
 
 function Instruments() {
   const TITLE = "Instrumentos";
@@ -20,6 +24,9 @@ function Instruments() {
               >
                 <Button
                   type="link"
+                  style={{
+                    padding: 0
+                  }}
                 >
                   {record.type}
                 </Button>
@@ -48,6 +55,8 @@ function Instruments() {
             <Col>
               <Popconfirm
                 title="Tem certeza que deseja remover o registro?"
+                okText="Sim"
+                cancelText="Não"
                 icon={
                   <Typography.Text type="danger">
                     <WarningOutlined />
@@ -71,88 +80,37 @@ function Instruments() {
     }
   ];
 
-  const [instruments, setInstruments] = useState([
-    {
-      id: 1,
-      series: 1,
-      type: "Violão",
-      amount: 20
-    },
-    {
-      id: 2,
-      series: 2,
-      type: "Teclado",
-      amount: 20
-    },
-    {
-      id: 3,
-      series: 3,
-      type: "Flauta doce",
-      amount: 20
-    },
-    {
-      id: 4,
-      series: 4,
-      type: "Bateria",
-      amount: 3
-    },
-    {
-      id: 5,
-      series: 5,
-      type: "Saxofone",
-      amount: 4
-    },
-    {
-      id: 6,
-      series: 6,
-      type: "Cavaquinho",
-      amount: 10
-    },
-    {
-      id: 7,
-      series: 7,
-      type: "Violino",
-      amount: 12
-    },
-    {
-      id: 8,
-      series: 8,
-      type: "Baixo",
-      amount: 5
-    },
-    {
-      id: 9,
-      series: 9,
-      type: "Guitarra",
-      amount: 11
-    },
-    {
-      id: 10,
-      series: 10,
-      type: "Banjo",
-      amount: 1
-    },
-    {
-      id: 11,
-      series: 11,
-      type: "Flauta transversal",
-      amount: 10
-    },
-    {
-      id: 12,
-      series: 12,
-      type: "Pandeiro",
-      amount: 5
-    },
-  ]);
+  const [instruments, setInstruments] = useState([]);
 
-  const onClickRemove = (instrumentId) => {
-    setInstruments((prevInstruments) => {
-      return prevInstruments.filter((prevInstrument) => {
-        return prevInstrument.id !== instrumentId
-      });
-    });
+  const onClickRemove = async (instrumentId) => {
+    try {
+      await deleteDoc(doc(firebaseDb, "instruments", instrumentId));
+
+      setInstruments(instruments.filter((instrument) => {
+        return instrument.id !== instrumentId;
+      }));
+    } catch (err) {
+      console.error("Instruments:onClickRemove", err);
+    }
   };
+
+  const loadInstruments = async () => {
+    try {
+      const instrumentsSnapshot = await getDocs(collection(firebaseDb, "instruments"));
+      setInstruments(instrumentsSnapshot.docs.map((doc) => {
+        return ({
+          ...doc.data(),
+          id: doc.ref.id,
+        });
+      }));
+    } catch (err) {
+      console.error("Instruments:loadInstruments", err);
+    }
+  };
+
+  useEffect(() => {
+    loadInstruments();
+  }, []);
 
   return (
     <div

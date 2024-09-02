@@ -1,50 +1,34 @@
-import {
-  useEffect,
-  useState
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  useNavigate,
-  useParams
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import {
-  Button,
-  Col,
-  Layout,
-  Row,
-  Typography
-} from "antd";
-import {
-  ArrowLeftOutlined,
-  EditOutlined
-} from "@ant-design/icons";
+import { Button, Col, Layout, Row, Typography } from "antd";
+import { ArrowLeftOutlined, EditOutlined } from "@ant-design/icons";
 
-import {
-  InstrumentForm
-} from "./Form";
+import { doc, getDoc } from "firebase/firestore";
+import { firebaseDb } from "../../services/firebase";
+
+import { InstrumentForm } from "./Form";
 import { InstrumentView } from "./View";
 
 function Instrument() {
   const [editMode, setEditMode] = useState(false);
   const [instrument, setInstrument] = useState(null);
   const navigate = useNavigate();
-  const {
-    instrumentID
-  } = useParams();
+  const { instrumentID } = useParams();
 
   let form = null;
   let title = null;
 
-  const getInstrument = (instrumentID) => {
-    if (instrumentID === "1") {
-      return setInstrument({
-        id: instrumentID,
-        type: "Violão",
-        amount: 10,
-        series: "#54321",
-        mark: "Gianini"
+  const getInstrument = async (instrumentID) => {
+    try {
+      const instrumentSnapshot = await getDoc(doc(firebaseDb, "instruments", instrumentID));
+      setInstrument({
+        ...instrumentSnapshot.data(),
+        id: instrumentSnapshot.id
       });
+    } catch (err) {
+      console.error("Instrument:getInstrument", err);
     }
   };
 
@@ -66,7 +50,7 @@ function Instrument() {
 
   const onSaveSuccess = (values) => {
     if (!instrumentID) {
-      return navigate(-1);
+      return navigate("/");
     }
 
     if (!editMode) {

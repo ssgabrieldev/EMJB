@@ -30,8 +30,10 @@ body {
 .logout {
   color: #FFF;
   position: absolute;
-  bottom: 12px;
+  bottom: 0;
   z-index: 1000;
+  background-color: #072538;
+  border-radius: 0;
 }
 
 .page {
