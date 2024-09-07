@@ -7,10 +7,10 @@
     "emjb-dev": {
       "hosting": {
         "dev": [
-          "emjb-dev"
+          "emjb-inv-dev"
         ],
         "production": [
-          "emjb"
+          "emjb-inv"
         ]
       }
     }
