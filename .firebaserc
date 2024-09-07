@@ -8,7 +8,11 @@
       "hosting": {
         "dev": [
           "emjb-inv-dev"
-        ],
+        ]
+      }
+    },
+    "emjb-25396": {
+      "hosting": {
         "production": [
           "emjb-inventory"
         ]
