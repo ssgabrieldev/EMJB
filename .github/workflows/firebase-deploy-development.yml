@@ -16,13 +16,15 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'  # ou outra versão que você utiliza
+        node-version: '20'  # ou outra versão que você utiliza
 
     - name: Install Dependencies
       run: npm install
 
     - name: Build Project
       run: npm run build  # Certifique-se de que esse comando builda o projeto
+      env:
+        VITE_FIREBASE_CONFIG: ${{ secrets.DEVELOPMENT_FIREBASE_CONFIG }}
 
     - name: Deploy to Firebase Hosting (Staging)
       run: npx firebase deploy --only hosting:staging
