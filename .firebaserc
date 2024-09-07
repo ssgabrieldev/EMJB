@@ -10,7 +10,6 @@
           "emjb-inv-dev"
         ],
         "production": [
-          "emjb-inv",
           "emjb-inventory"
         ]
       }
