@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, notification, Row } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -29,6 +29,11 @@ function Login() {
       authContext.signin(userCredential);
     } catch (err) {
       console.error("Login:onSubmitForm", err);
+      if (err.code = "auth/invalid-credential") {
+        notification.error({
+          message: "Login Invalido"
+        });
+      }
     }
 
     setLoadingSubmitForm(false);

@@ -8,6 +8,7 @@ import { DeleteOutlined, PlusOutlined, WarningOutlined } from "@ant-design/icons
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 import { firebaseDb } from "../../services/firebase";
+import { getStatus } from "../../utils/status";
 
 function Instruments() {
   const TITLE = "Instrumentos";
@@ -42,9 +43,18 @@ function Instruments() {
       dataIndex: "series",
     },
     {
-      key: "amount",
-      title: "Quantidade",
-      dataIndex: "amount",
+      key: "status",
+      title: "Status",
+      render: (_text, record, _index) => {
+        return getStatus(record.status);
+      }
+    },
+    {
+      key: "last_maintenance",
+      title: "Última Manutenção",
+      render: (_text, record, _index) => {
+        return record.last_maintenance;
+      }
     },
     {
       key: "actions",

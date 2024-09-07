@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { Button, Form, InputNumber, Input, Row, Col } from "antd";
+import { Button, Form, Input, Row, Col, Select, DatePicker, notification } from "antd";
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
+
+import dayjs from "dayjs";
 
 import { firebaseDb } from "../../../services/firebase";
 
@@ -17,14 +19,28 @@ function InstrumentForm({ instrument, onCancelClick, onSaveSuccess, onSaveFail }
 
     try {
       if (!isEditingForm) {
-        const doc = await addDoc(collection(firebaseDb, "instruments"), {
+        const docRef = await addDoc(collection(firebaseDb, "instruments"), {
           type: values.type,
           mark: values.mark,
           series: values.series,
-          amount: values.amount
+          status: values.status,
+          last_maintenance:  values.last_maintenance ? values.last_maintenance.format("DD/MM/YYYY") : ""
         });
-        onSaveSuccess && onSaveSuccess(values, doc);
+        onSaveSuccess && onSaveSuccess(values, docRef);
+      } else {
+        const docRef = await updateDoc(doc(firebaseDb, "instruments", instrument.id), {
+          type: values.type,
+          mark: values.mark,
+          series: values.series,
+          status: values.status,
+          last_maintenance:  values.last_maintenance ? values.last_maintenance.format("DD/MM/YYYY") : ""
+        });
+        onSaveSuccess && onSaveSuccess(values, docRef);
       }
+
+      notification.success({
+        message: "Dados Salvos"
+      });
     } catch (err) {
       console.log("InstrumentForm:onSubmitForm", err);
       onSaveFail && onSaveFail(values);
@@ -37,9 +53,10 @@ function InstrumentForm({ instrument, onCancelClick, onSaveSuccess, onSaveFail }
     if (isEditingForm) {
       form.setFieldsValue({
         type: instrument.type,
-        amount: instrument.amount,
         series: instrument.series,
-        mark: instrument.mark
+        mark: instrument.mark,
+        status: instrument.status,
+        last_maintenance: instrument.last_maintenance ? dayjs(instrument.last_maintenance, "DD/MM/YYYY") : ""
       });
     }
   }, []);
@@ -95,16 +112,36 @@ function InstrumentForm({ instrument, onCancelClick, onSaveSuccess, onSaveFail }
         </Col>
         <Col span={12}>
           <Form.Item
-            label="Quantidade"
-            name="amount"
+            label="Status"
+            name="status"
             rules={[
               {
                 required: true,
-                message: "Insira a quantidade de instrumentos."
+                message: "Selecione o status do instrumento."
               }
             ]}
           >
-            <InputNumber name="amount" />
+            <Select
+              options={[
+                {
+                  label: "Disponível",
+                  value: "available"
+                },
+                {
+                  label: "Reservado",
+                  value: "reserved"
+                },
+                {
+                  label: "Em manutenção",
+                  value: "maintance"
+                }
+              ]}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="Última Manutenção" name="last_maintenance">
+            <DatePicker />
           </Form.Item>
         </Col>
         <Col span={24}>

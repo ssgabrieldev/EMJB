@@ -53,15 +53,15 @@ function Instrument() {
       return navigate("/");
     }
 
-    if (!editMode) {
-      setEditMode(true);
-    }
-
+    setEditMode(false);
     setInstrument((prevInstrument) => {
       return ({
         ...prevInstrument,
-        name: values.name,
-        amount: values.amount
+        type: values.type,
+        status: values.status,
+        mark: values.mark,
+        series: values.series,
+        last_maintenance: values.last_maintenance ? values.last_maintenance.format("DD/MM/YYYY") : ""
       });
     });
   };

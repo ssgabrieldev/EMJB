@@ -1,7 +1,7 @@
-import {
-  Col,
-  Row,
-} from "antd";
+import { Col, Row, } from "antd";
+
+import { getStatus } from "../../../utils/status";
+
 import { InstrumentViewItem } from "./Item";
 
 function InstrumentView({
@@ -37,8 +37,16 @@ function InstrumentView({
         span={12}
       >
         <InstrumentViewItem
-          title="Quantidade"
-          value={instrument.amount}
+          title="Status"
+          value={getStatus(instrument.status)}
+        />
+      </Col>
+      <Col
+        span={12}
+      >
+        <InstrumentViewItem
+          title="Última Manutenção"
+          value={instrument.last_maintenance}
         />
       </Col>
     </Row>
