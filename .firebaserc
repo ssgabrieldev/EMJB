@@ -3,7 +3,18 @@
     "production": "emjb-25396",
     "dev": "emjb-dev"
   },
-  "targets": {},
+  "targets": {
+    "emjb-dev": {
+      "hosting": {
+        "dev": [
+          "emjb-dev"
+        ],
+        "production": [
+          "emjb"
+        ]
+      }
+    }
+  },
   "etags": {},
   "dataconnectEmulatorConfig": {}
 }
