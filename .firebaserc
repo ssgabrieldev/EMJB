@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "emjb-25396"
+  },
   "targets": {
     "emjb-25396": {
       "hosting": {
