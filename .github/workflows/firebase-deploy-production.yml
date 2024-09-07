@@ -1,0 +1,30 @@
+name: Deploy to Firebase Hosting (Production)
+
+on:
+  push:
+    branches:
+      - master  # Altere para a branch que você usa para produção
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # ou outra versão que você utiliza
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Project
+      run: npm run build  # Certifique-se de que esse comando builda o projeto
+
+    - name: Deploy to Firebase Hosting (Production)
+      run: npx firebase deploy --only hosting:production
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
