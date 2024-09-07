@@ -8,8 +8,8 @@ const firebaseConfig = {
   projectId: "emjb-25396",
   storageBucket: "emjb-25396.appspot.com",
   messagingSenderId: "985820330830",
-  appId: "1:985820330830:web:8fa3705df96923e5d03c1f",
-  measurementId: "G-G0BL8CV4Q9"
+  appId: "1:985820330830:web:ea4db50895c0e6bbd03c1f",
+  measurementId: "G-SZC5X3PH8X"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
