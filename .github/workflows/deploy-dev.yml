@@ -3,7 +3,7 @@ name: Deploy to Firebase Hosting (Staging)
 on:
   push:
     branches:
-      - development  # Altere para a branch que você usa para testes/staging
+      - development
 
 jobs:
   build:
@@ -16,17 +16,17 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'  # ou outra versão que você utiliza
+        node-version: '20'
 
     - name: Install Dependencies
       run: npm install
 
     - name: Build Project
-      run: npm run build  # Certifique-se de que esse comando builda o projeto
+      run: npm run build
       env:
         VITE_FIREBASE_CONFIG: ${{ secrets.DEVELOPMENT_FIREBASE_CONFIG }}
 
     - name: Deploy to Firebase Hosting (Staging)
-      run: npx firebase deploy --only hosting:staging
+      run: npx firebase deploy --only hosting:dev
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

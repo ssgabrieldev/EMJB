@@ -1,19 +1,9 @@
 {
   "projects": {
-    "default": "emjb-25396"
+    "production": "emjb-25396",
+    "dev": "emjb-dev"
   },
-  "targets": {
-    "emjb-25396": {
-      "hosting": {
-        "production": [
-          "emjb-inventory"
-        ],
-        "staging": [
-          "emjb-inventory-dev"
-        ]
-      }
-    }
-  },
+  "targets": {},
   "etags": {},
   "dataconnectEmulatorConfig": {}
 }
