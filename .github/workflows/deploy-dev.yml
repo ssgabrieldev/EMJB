@@ -27,6 +27,8 @@ jobs:
         VITE_FIREBASE_CONFIG: ${{ secrets.DEVELOPMENT_FIREBASE_CONFIG }}
 
     - name: Deploy to Firebase Hosting (Staging)
-      run: npx firebase deploy --only hosting:dev
+      run: |
+        npx firebase use dev
+        npx firebase deploy --only hosting:dev
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
